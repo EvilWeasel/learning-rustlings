@@ -17,17 +17,29 @@
 //   the first element is the string, the second one is the command.
 // - The output element is going to be a vector of strings.
 
-enum Command {
+pub enum Command {
     Uppercase,
     Trim,
     Append(usize),
 }
 
-mod my_module {
+pub mod my_module {
     use super::Command;
 
     // TODO: Complete the function as described above.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        let mut output: Vec<String> = vec![];
+        for tup in input {
+            match tup.1 {
+                Command::Uppercase => output.insert(output.len(), tup.0.to_uppercase()),
+                Command::Trim => output.insert(output.len(), tup.0.trim().to_string()),
+                Command::Append(factor) => {
+                    output.insert(output.len(), tup.0 + &"bar".repeat(factor))
+                }
+            };
+        }
+        output
+    }
 }
 
 fn main() {
@@ -37,7 +49,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
